@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import type { Todo } from "./types/todo";
+import type { Todo, TodoCategory } from "./types/todo";
 import { TodoList } from "./components/TodoList";
 
 const App: React.FC = () => {
   // React state for todos and for the new task input
   const [todos, setTodos] = useState<Todo[]>([]);
   const [description, setDescription] = useState<string>("");
+  const [category, setCategory] = useState<TodoCategory>("personal");
 
   // Automatically mark todos as urgent if they are open for more than 1 minute.
   useEffect(() => {
@@ -37,16 +38,15 @@ const App: React.FC = () => {
   // Handler to add a new todo
   const addTodo = () => {
     if (!description.trim()) return;
-// Temporary default category, will be replaced by a select input.
-const newTodo: Todo = {
-  id: crypto.randomUUID(),
-  description: description.trim(),
-  createdAt: new Date(),
-  status: "open",
-  isUrgent: false,
-  category: "personal", // default category for now
-};
 
+    const newTodo: Todo = {
+      id: crypto.randomUUID(),
+      description: description.trim(),
+      createdAt: new Date(),
+      status: "open",
+      isUrgent: false,
+      category, // use currently selected category
+    };
 
     setTodos((prev) => [...prev, newTodo]);
     setDescription("");
@@ -81,9 +81,6 @@ const newTodo: Todo = {
   const doneCount = todos.filter((todo) => todo.status === "done").length;
   const totalCount = todos.length;
 
-
-
-  
   return (
     <main className="app">
       <h1 className="app__title">React To-Do</h1>
@@ -110,6 +107,21 @@ const newTodo: Todo = {
           onChange={(e) => setDescription(e.target.value)}
           className="todo-form__input"
         />
+
+        {/* Category select for the new todo */}
+        <select
+          value={category}
+          onChange={(e) =>
+            setCategory(e.target.value as TodoCategory)
+          }
+          className="todo-form__select"
+          aria-label="Todo category"
+        >
+          <option value="work">Work</option>
+          <option value="personal">Personal</option>
+          <option value="shopping">Shopping</option>
+        </select>
+
         <button type="submit" className="todo-form__button">
           Add
         </button>
@@ -124,7 +136,6 @@ const newTodo: Todo = {
       />
     </main>
   );
-
 };
 
 export default App;

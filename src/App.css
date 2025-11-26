@@ -45,6 +45,19 @@ body {
   border-radius: 0.375rem;
   border: 1px solid #cbd2d9;
 }
+.todo-form__select {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  border-radius: 0.375rem;
+  border: 1px solid #cbd2d9;
+  background-color: white;
+}
+
+.todo-form__select:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
 
 .todo-form__input:focus {
   outline: 2px solid #2563eb;
