@@ -37,14 +37,16 @@ const App: React.FC = () => {
   // Handler to add a new todo
   const addTodo = () => {
     if (!description.trim()) return;
+// Temporary default category, will be replaced by a select input.
+const newTodo: Todo = {
+  id: crypto.randomUUID(),
+  description: description.trim(),
+  createdAt: new Date(),
+  status: "open",
+  isUrgent: false,
+  category: "personal", // default category for now
+};
 
-    const newTodo: Todo = {
-      id: crypto.randomUUID(),
-      description: description.trim(),
-      createdAt: new Date(),
-      status: "open",
-      isUrgent: false,
-    };
 
     setTodos((prev) => [...prev, newTodo]);
     setDescription("");
