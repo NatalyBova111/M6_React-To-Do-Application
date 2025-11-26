@@ -5,9 +5,15 @@ interface TodoListProps {
   todos: Todo[];
   onToggleStatus: (id: string) => void;
   onDelete: (id: string) => void;
+  onUpdateDescription: (id: string, newDescription: string) => void;
 }
 
-export const TodoList: React.FC<TodoListProps> = ({ todos, onToggleStatus, onDelete }) => {
+export const TodoList: React.FC<TodoListProps> = ({
+  todos,
+  onToggleStatus,
+  onDelete,
+  onUpdateDescription,
+}) => {
   if (todos.length === 0) {
     return <p>No tasks yet.</p>;
   }
@@ -20,6 +26,7 @@ export const TodoList: React.FC<TodoListProps> = ({ todos, onToggleStatus, onDel
           todo={todo}
           onToggleStatus={onToggleStatus}
           onDelete={onDelete}
+          onUpdateDescription={onUpdateDescription}
         />
       ))}
     </ul>

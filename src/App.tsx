@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import type { Todo } from "./types/todo";
 import { TodoList } from "./components/TodoList";
 
@@ -7,6 +6,7 @@ const App: React.FC = () => {
   // React state for todos and for the new task input
   const [todos, setTodos] = useState<Todo[]>([]);
   const [description, setDescription] = useState<string>("");
+
   // Automatically mark todos as urgent if they are open for more than 1 minute.
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -65,8 +65,16 @@ const App: React.FC = () => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
-  // RU: Считаем количество открытых и выполненных задач для сводки.
-  // EN: Compute open/done counts for summary.
+  // Handler to update todo description.
+  const updateTodoDescription = (id: string, newDescription: string) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, description: newDescription } : todo
+      )
+    );
+  };
+
+  // Compute open/done counts for summary.
   const openCount = todos.filter((todo) => todo.status === "open").length;
   const doneCount = todos.filter((todo) => todo.status === "done").length;
   const totalCount = todos.length;
@@ -75,7 +83,7 @@ const App: React.FC = () => {
     <main style={{ padding: "1rem" }}>
       <h1>React To-Do</h1>
 
-      {/* RU: Сводка по задачам. EN: Todo summary. */}
+      {/* Todo summary. */}
       <section aria-label="Todo summary">
         <p>
           Open: {openCount} · Done: {doneCount} · Total: {totalCount}
@@ -98,6 +106,7 @@ const App: React.FC = () => {
         todos={todos}
         onToggleStatus={toggleTodoStatus}
         onDelete={deleteTodo}
+        onUpdateDescription={updateTodoDescription}
       />
     </main>
   );

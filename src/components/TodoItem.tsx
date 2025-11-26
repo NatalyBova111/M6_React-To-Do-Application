@@ -1,5 +1,6 @@
-// Renders a single todo item with status and urgency.
+// Renders a single todo item with status, urgency and edit support.
 
+import React, { useState } from "react";
 import type { Todo } from "../types/todo";
 import type { CSSProperties } from "react";
 
@@ -7,26 +8,52 @@ interface TodoItemProps {
   todo: Todo;
   onToggleStatus: (id: string) => void;
   onDelete: (id: string) => void;
+  onUpdateDescription: (id: string, newDescription: string) => void;
 }
 
 export const TodoItem: React.FC<TodoItemProps> = ({
   todo,
   onToggleStatus,
   onDelete,
+  onUpdateDescription,
 }) => {
   const isDone = todo.status === "done";
   const createdAtLabel = new Date(todo.createdAt).toLocaleString();
+
+  // Local edit mode state.
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempDescription, setTempDescription] = useState(todo.description);
 
   // Styles for urgent todo.
   const itemStyle: CSSProperties | undefined = todo.isUrgent
     ? { borderLeft: "4px solid red", paddingLeft: "0.5rem" }
     : undefined;
 
+  const handleSave = () => {
+    const trimmed = tempDescription.trim();
+    if (!trimmed) return;
+    onUpdateDescription(todo.id, trimmed);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setTempDescription(todo.description);
+    setIsEditing(false);
+  };
+
   return (
     <li style={itemStyle}>
       <div>
         <span>
-          {todo.description}{" "}
+          {isEditing ? (
+            <input
+              type="text"
+              value={tempDescription}
+              onChange={(e) => setTempDescription(e.target.value)}
+            />
+          ) : (
+            todo.description
+          )}{" "}
           <span aria-label="Created at">— {createdAtLabel}</span>{" "}
           <span>{isDone ? "(done)" : "(open)"}</span>
           {todo.isUrgent && (
@@ -44,9 +71,20 @@ export const TodoItem: React.FC<TodoItemProps> = ({
         <button onClick={() => onToggleStatus(todo.id)}>
           {isDone ? "Reopen" : "Mark as done"}
         </button>
+
+        {isEditing ? (
+          <>
+            <button onClick={handleSave}>Save</button>
+            <button onClick={handleCancel}>Cancel</button>
+          </>
+        ) : (
+          <button onClick={() => setIsEditing(true)} disabled={isDone}>
+            Edit
+          </button>
+        )}
+
         <button onClick={() => onDelete(todo.id)}>Delete</button>
       </div>
     </li>
   );
 };
-
