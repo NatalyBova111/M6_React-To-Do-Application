@@ -1,73 +1,98 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# React To-Do Application
 
-Currently, two official plugins are available:
+A small React + TypeScript application built as a practical exercise for state management, UI/UX, and clean component architecture.  
+This project follows the specifications of a typical "React Coding Assignment" used in interviews.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Features (Teil 1)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### ✔ Core Functionality
+- Add new tasks
+- Edit tasks (only when status is "open")
+- Mark tasks as done or reopen them
+- Delete tasks
+- Automatic "urgent" status:  
+  A task becomes urgent if it stays open longer than 1 minute
+- Task summary: open, done, total
+- Display creation date and time for each task
 
-## Expanding the ESLint configuration
+### ✔ State Management
+- `useState` for managing todos and UI interactions  
+- `useEffect` for time-based urgent detection  
+- Clean separation of components and strict TypeScript types
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### ✔ UI/UX
+- Clean and minimal interface  
+- Color-coded status badges (Open / Done / Urgent)  
+- Fully keyboard-accessible form (Enter to submit)  
+- Responsive layout and readable typography  
+- Clear button labels and functional structure
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### ✔ Accessibility
+- ARIA labels  
+- Keyboard-friendly interactions  
+- Announcements via `aria-live` in the todo list
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### ✔ Code Quality
+- TypeScript interfaces for all data structures  
+- Functional components  
+- Small, testable components  
+- Avoids unnecessary re-renders  
+- Readable and commented code
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📁 Folder Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+src/
+components/
+TodoItem.tsx
+TodoList.tsx
+types/
+todo.ts
+App.tsx
+App.css
+main.tsx
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 🛠 Tech Stack
+
+- **React 18**
+- **TypeScript**
+- **Vite**
+- **CSS (custom styles)**
+- Optional: GitHub Copilot / ChatGPT for assistance
+
+---
+
+## 🧪 How to Run
+
+```bash
+npm install
+npm run dev
+
+App will be available at:
+
+http://localhost:5173
+
+## 📄 Reflection
+
+See REFLECTION.md for a short write-up on AI usage during development.
+
+##  📝 Part 2 (Stretch Goal)
+
+The next step (optional) includes:
+
+Task categories (Work, Personal, Shopping, etc.)
+
+Assigning categories during creation
+
+Moving tasks between categories
+
+Grouped category lists in UI
+
+

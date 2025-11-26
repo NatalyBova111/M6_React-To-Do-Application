@@ -107,3 +107,28 @@ ul {
   opacity: 0.5;
   cursor: not-allowed;
 }
+/* Status badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.375rem;
+}
+
+.status-open {
+  color: #0f766e;
+  background-color: #ccfbf1;
+}
+
+.status-done {
+  color: #166534;
+  background-color: #dcfce7;
+}
+
+.status-urgent {
+  color: #b91c1c;
+  background-color: #fee2e2;
+}

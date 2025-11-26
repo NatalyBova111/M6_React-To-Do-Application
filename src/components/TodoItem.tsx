@@ -24,10 +24,9 @@ export const TodoItem: React.FC<TodoItemProps> = ({
   const [tempDescription, setTempDescription] = useState(todo.description);
 
   // Styles for urgent todo.
-    const itemClassName = `todo-item${
+  const itemClassName = `todo-item${
     todo.isUrgent ? " todo-item--urgent" : ""
   }`;
-
 
   const handleSave = () => {
     const trimmed = tempDescription.trim();
@@ -42,7 +41,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
   };
 
   return (
-     <li className={itemClassName}>
+    <li className={itemClassName}>
       <div>
         <span>
           {isEditing ? (
@@ -55,14 +54,13 @@ export const TodoItem: React.FC<TodoItemProps> = ({
             todo.description
           )}{" "}
           <span aria-label="Created at">— {createdAtLabel}</span>{" "}
-          <span>{isDone ? "(done)" : "(open)"}</span>
-          {todo.isUrgent && (
-            <span
-              aria-label="Urgent task"
-              style={{ marginLeft: "0.5rem", fontWeight: "bold" }}
-            >
-              🔥 Urgent
-            </span>
+          {/* Status badge */}
+          {todo.isUrgent ? (
+            <span className="status-badge status-urgent">🔥 Urgent</span>
+          ) : isDone ? (
+            <span className="status-badge status-done">✔️ Done</span>
+          ) : (
+            <span className="status-badge status-open">🟢 Open</span>
           )}
         </span>
       </div>
