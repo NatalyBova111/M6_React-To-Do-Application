@@ -63,24 +63,6 @@ It also persists data in **localStorage**, so todos survive page reloads.
 
 ---
 
-## 📁 Folder Structure
-
-## 📁 Folder Structure
-
-```txt
-src/
-  components/
-    TodoItem.tsx
-    TodoList.tsx
-  types/
-    todo.ts
-  App.tsx
-  App.css
-  main.tsx
-  index.css
-
-
----
 
 ## 🛠 Tech Stack
 
@@ -114,4 +96,19 @@ Teil 2 of the assignment is implemented:
 - Todos are grouped by category in separate blocks in the UI
 
 
+## 📁 Folder Structure
 
+```txt
+src/
+  components/
+    TodoItem.tsx
+    TodoList.tsx
+  types/
+    todo.ts
+  App.tsx
+  App.css
+  main.tsx
+  index.css
+
+
+---
