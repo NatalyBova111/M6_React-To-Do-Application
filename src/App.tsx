@@ -2,40 +2,69 @@ import { useState, useEffect } from "react";
 import type { Todo, TodoCategory } from "./types/todo";
 import { TodoList } from "./components/TodoList";
 
+const STORAGE_KEY = "react-todo-app-todos";
+
 const App: React.FC = () => {
-  // React state for todos and for the new task input
-  const [todos, setTodos] = useState<Todo[]>([]);
+  // --------------------------
+  // State (with initial load from localStorage)
+  // --------------------------
+  const [todos, setTodos] = useState<Todo[]>(() => {
+    if (typeof window === "undefined") return [];
+
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+
+    try {
+      const parsed = JSON.parse(raw) as Todo[];
+
+      return parsed.map((todo) => ({
+        ...todo,
+        createdAt: new Date(todo.createdAt),
+      }));
+    } catch (e) {
+      console.error("Failed to parse todos from localStorage", e);
+      return [];
+    }
+  });
+
   const [description, setDescription] = useState<string>("");
   const [category, setCategory] = useState<TodoCategory>("personal");
 
-  // Automatically mark todos as urgent if they are open for more than 1 minute.
+  // --------------------------
+  // Save todos to localStorage whenever they change
+  // --------------------------
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+  }, [todos]);
+
+  // --------------------------
+  // Urgent task detection
+  // --------------------------
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTodos((prevTodos) =>
         prevTodos.map((todo) => {
-          // only consider open tasks
           if (todo.status !== "open") {
-            // reset urgency for non-open tasks
             return todo.isUrgent ? { ...todo, isUrgent: false } : todo;
           }
 
           const createdTime = new Date(todo.createdAt).getTime();
           const now = Date.now();
-          const isNowUrgent = now - createdTime > 60_000; // 60 seconds
+          const isNowUrgent = now - createdTime > 60_000;
 
-          if (todo.isUrgent === isNowUrgent) {
-            return todo;
-          }
-
-          return { ...todo, isUrgent: isNowUrgent };
+          return todo.isUrgent === isNowUrgent
+            ? todo
+            : { ...todo, isUrgent: isNowUrgent };
         })
       );
-    }, 5000); // check every 5 seconds
+    }, 5000);
 
     return () => clearInterval(intervalId);
   }, []);
 
-  // Handler to add a new todo
+  // --------------------------
+  // Add new todo
+  // --------------------------
   const addTodo = () => {
     if (!description.trim()) return;
 
@@ -45,14 +74,16 @@ const App: React.FC = () => {
       createdAt: new Date(),
       status: "open",
       isUrgent: false,
-      category, // use currently selected category
+      category,
     };
 
     setTodos((prev) => [...prev, newTodo]);
     setDescription("");
   };
 
-  // Handlers to toggle todo status and delete a todo by id
+  // --------------------------
+  // Toggle todo status
+  // --------------------------
   const toggleTodoStatus = (id: string) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -63,11 +94,16 @@ const App: React.FC = () => {
     );
   };
 
+  // --------------------------
+  // Delete todo
+  // --------------------------
   const deleteTodo = (id: string) => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
-  // Handler to update todo description.
+  // --------------------------
+  // Update description
+  // --------------------------
   const updateTodoDescription = (id: string, newDescription: string) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -76,23 +112,25 @@ const App: React.FC = () => {
     );
   };
 
-  // Compute open/done counts for summary.
-  const openCount = todos.filter((todo) => todo.status === "open").length;
-  const doneCount = todos.filter((todo) => todo.status === "done").length;
+  // --------------------------
+  // Counters
+  // --------------------------
+  const openCount = todos.filter((t) => t.status === "open").length;
+  const doneCount = todos.filter((t) => t.status === "done").length;
   const totalCount = todos.length;
 
   return (
     <main className="app">
       <h1 className="app__title">React To-Do</h1>
 
-      {/* Todo summary. */}
+      {/* Todo summary */}
       <section aria-label="Todo summary" className="app__summary">
         <p>
           Open: {openCount} · Done: {doneCount} · Total: {totalCount}
         </p>
       </section>
 
-      {/* Simple form to add a new todo */}
+      {/* Form */}
       <form
         className="todo-form"
         onSubmit={(e) => {
@@ -108,12 +146,9 @@ const App: React.FC = () => {
           className="todo-form__input"
         />
 
-        {/* Category select for the new todo */}
         <select
           value={category}
-          onChange={(e) =>
-            setCategory(e.target.value as TodoCategory)
-          }
+          onChange={(e) => setCategory(e.target.value as TodoCategory)}
           className="todo-form__select"
           aria-label="Todo category"
         >
@@ -127,7 +162,7 @@ const App: React.FC = () => {
         </button>
       </form>
 
-      {/* List of todos rendered via TodoList component */}
+      {/* Todo groups by category */}
       <TodoList
         todos={todos}
         onToggleStatus={toggleTodoStatus}

@@ -1,10 +1,12 @@
 # React + TypeScript + Vite
-![React To-Do Application](image.png)
+![React To-Do Application](image-1.png)
 
 # React To-Do Application
 
-A small React + TypeScript application built as a practical exercise for state management, UI/UX, and clean component architecture.  
-This project follows the specifications of a typical "React Coding Assignment" used in interviews.
+A React + TypeScript To-Do application built as a practical exercise in state management, UI/UX and clean component architecture.  
+The project implements both **Teil 1** (core features) and **Teil 2** (categories and grouped lists) of a typical "React Coding Assignment".
+It also persists data in **localStorage**, so todos survive page reloads.
+
 
 ---
 
@@ -19,6 +21,21 @@ This project follows the specifications of a typical "React Coding Assignment" u
   A task becomes urgent if it stays open longer than 1 minute
 - Task summary: open, done, total
 - Display creation date and time for each task
+- Data is persisted in `localStorage` so tasks remain after page reload
+
+## 🗂️ Features (Teil 2)
+
+### ✔ Categories
+- Each task belongs to one of three categories:
+  - **Work**
+  - **Personal**
+  - **Shopping**
+- Category is selected when creating a new task.
+
+### ✔ Grouped Lists
+- Tasks are grouped by category in the UI.
+- Each category has its own block with its tasks only.
+- Empty categories show a short “no tasks” hint.
 
 ### ✔ State Management
 - `useState` for managing todos and UI interactions  
@@ -49,14 +66,15 @@ This project follows the specifications of a typical "React Coding Assignment" u
 ## 📁 Folder Structure
 
 src/
-components/
-TodoItem.tsx
-TodoList.tsx
-types/
-todo.ts
-App.tsx
-App.css
-main.tsx
+  components/
+    TodoItem.tsx
+    TodoList.tsx
+  types/
+    todo.ts
+  App.tsx
+  App.css
+  main.tsx
+  index.css
 
 ---
 
@@ -83,16 +101,13 @@ http://localhost:5173
 
 See REFLECTION.md for a short write-up on AI usage during development.
 
-##  📝 Part 2 (Stretch Goal)
+## 📝 Part 2 (Categories & Grouped Lists)
 
-The next step (optional) includes:
+Teil 2 of the assignment is implemented:
 
-Task categories (Work, Personal, Shopping, etc.)
+- Task categories: **Work**, **Personal**, **Shopping**
+- Category selection when creating a task
+- Todos are grouped by category in separate blocks in the UI
 
-Assigning categories during creation
-
-Moving tasks between categories
-
-Grouped category lists in UI
 
 
