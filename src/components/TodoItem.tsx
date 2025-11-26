@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import type { Todo } from "../types/todo";
-import type { CSSProperties } from "react";
 
 interface TodoItemProps {
   todo: Todo;
@@ -25,9 +24,10 @@ export const TodoItem: React.FC<TodoItemProps> = ({
   const [tempDescription, setTempDescription] = useState(todo.description);
 
   // Styles for urgent todo.
-  const itemStyle: CSSProperties | undefined = todo.isUrgent
-    ? { borderLeft: "4px solid red", paddingLeft: "0.5rem" }
-    : undefined;
+    const itemClassName = `todo-item${
+    todo.isUrgent ? " todo-item--urgent" : ""
+  }`;
+
 
   const handleSave = () => {
     const trimmed = tempDescription.trim();
@@ -42,7 +42,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
   };
 
   return (
-    <li style={itemStyle}>
+     <li className={itemClassName}>
       <div>
         <span>
           {isEditing ? (

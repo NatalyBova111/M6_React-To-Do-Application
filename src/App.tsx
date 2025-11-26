@@ -79,27 +79,39 @@ const App: React.FC = () => {
   const doneCount = todos.filter((todo) => todo.status === "done").length;
   const totalCount = todos.length;
 
+
+
+  
   return (
-    <main style={{ padding: "1rem" }}>
-      <h1>React To-Do</h1>
+    <main className="app">
+      <h1 className="app__title">React To-Do</h1>
 
       {/* Todo summary. */}
-      <section aria-label="Todo summary">
+      <section aria-label="Todo summary" className="app__summary">
         <p>
           Open: {openCount} · Done: {doneCount} · Total: {totalCount}
         </p>
       </section>
 
       {/* Simple form to add a new todo */}
-      <div>
+      <form
+        className="todo-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          addTodo();
+        }}
+      >
         <input
           type="text"
           placeholder="New task"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          className="todo-form__input"
         />
-        <button onClick={addTodo}>Add</button>
-      </div>
+        <button type="submit" className="todo-form__button">
+          Add
+        </button>
+      </form>
 
       {/* List of todos rendered via TodoList component */}
       <TodoList
@@ -110,6 +122,7 @@ const App: React.FC = () => {
       />
     </main>
   );
+
 };
 
 export default App;
