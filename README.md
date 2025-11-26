@@ -65,6 +65,9 @@ It also persists data in **localStorage**, so todos survive page reloads.
 
 ## 📁 Folder Structure
 
+## 📁 Folder Structure
+
+```txt
 src/
   components/
     TodoItem.tsx
@@ -75,6 +78,7 @@ src/
   App.css
   main.tsx
   index.css
+
 
 ---
 
