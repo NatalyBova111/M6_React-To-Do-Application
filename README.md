@@ -1,4 +1,5 @@
 # React + TypeScript + Vite
+![React To-Do Application](image.png)
 
 # React To-Do Application
 
