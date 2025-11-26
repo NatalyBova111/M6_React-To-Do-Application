@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import type { Todo } from "./types/todo";
 import { TodoList } from "./components/TodoList";
 
@@ -6,6 +7,32 @@ const App: React.FC = () => {
   // React state for todos and for the new task input
   const [todos, setTodos] = useState<Todo[]>([]);
   const [description, setDescription] = useState<string>("");
+  // Automatically mark todos as urgent if they are open for more than 1 minute.
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) => {
+          // only consider open tasks
+          if (todo.status !== "open") {
+            // reset urgency for non-open tasks
+            return todo.isUrgent ? { ...todo, isUrgent: false } : todo;
+          }
+
+          const createdTime = new Date(todo.createdAt).getTime();
+          const now = Date.now();
+          const isNowUrgent = now - createdTime > 60_000; // 60 seconds
+
+          if (todo.isUrgent === isNowUrgent) {
+            return todo;
+          }
+
+          return { ...todo, isUrgent: isNowUrgent };
+        })
+      );
+    }, 5000); // check every 5 seconds
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   // Handler to add a new todo
   const addTodo = () => {
