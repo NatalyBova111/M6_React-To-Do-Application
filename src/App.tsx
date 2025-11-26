@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import type { Todo } from "./types/todo";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  // React state for todos and for the new task input
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [description, setDescription] = useState<string>("");
+
+  const addTodo = () => {
+    if (!description.trim()) return;
+
+    const newTodo: Todo = {
+      id: crypto.randomUUID(),
+      description: description.trim(),
+      createdAt: new Date(),
+      status: "open",
+      isUrgent: false,
+    };
+
+    setTodos([...todos, newTodo]);
+    setDescription("");
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <main style={{ padding: "1rem" }}>
+      <h1>React To-Do</h1>
 
-export default App
+      {/* Simple form to add a new todo */}
+      <div>
+        <input
+          type="text"
+          placeholder="New task"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <button onClick={addTodo}>Add</button>
+      </div>
+
+      {/* List of todos */}
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>{todo.description}</li>
+        ))}
+      </ul>
+    </main>
+  );
+};
+
+export default App;
