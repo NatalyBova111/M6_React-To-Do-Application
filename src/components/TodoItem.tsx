@@ -43,26 +43,49 @@ export const TodoItem: React.FC<TodoItemProps> = ({
   return (
     <li className={itemClassName}>
       <div>
-        <span>
-          {isEditing ? (
-            <input
-              type="text"
-              value={tempDescription}
-              onChange={(e) => setTempDescription(e.target.value)}
-            />
-          ) : (
-            todo.description
-          )}{" "}
-          <span aria-label="Created at">— {createdAtLabel}</span>{" "}
-          {/* Status badge */}
-          {todo.isUrgent ? (
-            <span className="status-badge status-urgent">🔥 Urgent</span>
-          ) : isDone ? (
-            <span className="status-badge status-done">✔️ Done</span>
-          ) : (
-            <span className="status-badge status-open">🟢 Open</span>
-          )}
-        </span>
+
+
+
+ <span>
+  {/* Category badge */}
+  <span
+    className={
+      "todo-category-badge " +
+      (todo.category === "work"
+        ? "todo-category-work"
+        : todo.category === "personal"
+        ? "todo-category-personal"
+        : "todo-category-shopping")
+    }
+  >
+    {todo.category}
+  </span>
+
+  {isEditing ? (
+    <input
+      type="text"
+      value={tempDescription}
+      onChange={(e) => setTempDescription(e.target.value)}
+    />
+  ) : (
+    todo.description
+  )}{" "}
+  <span aria-label="Created at">— {createdAtLabel}</span>{" "}
+
+  {/* Status badge */}
+  {todo.isUrgent ? (
+    <span className="status-badge status-urgent">🔥 Urgent</span>
+  ) : isDone ? (
+    <span className="status-badge status-done">✔️ Done</span>
+  ) : (
+    <span className="status-badge status-open">🟢 Open</span>
+  )}
+</span>
+
+
+
+
+
       </div>
 
       <div>

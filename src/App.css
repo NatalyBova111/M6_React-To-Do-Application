@@ -145,3 +145,49 @@ ul {
   color: #b91c1c;
   background-color: #fee2e2;
 }
+.todo-category-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+  color: white;
+}
+
+.todo-category-work {
+  background-color: #2563eb; /* blue */
+}
+
+.todo-category-personal {
+  background-color: #16a34a; /* green */
+}
+
+.todo-category-shopping {
+  background-color: #ea580c; /* orange */
+}
+.todo-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.todo-group {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+
+.todo-group__title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.todo-group__empty {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
